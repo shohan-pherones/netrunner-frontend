@@ -27,7 +27,7 @@ const Input = <T extends object>({
         id={name}
         placeholder={placeholder}
         {...register(name)}
-        className="w-full border px-3 py-2 rounded-lg transition-all outline-none focus:border-transparent focus:ring-2 focus:ring-cyan-100 hover:border-gray-300"
+        className="w-full border px-3 py-2 rounded-lg transition-all outline-none focus:border-transparent focus:ring-2 focus:ring-cyan-500 hover:border-gray-500"
       />
       {error && <span className="text-xs text-red-500">{error.message}</span>}
     </div>
