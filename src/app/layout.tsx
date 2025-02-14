@@ -1,7 +1,9 @@
 import { Footer, Header } from "@/components/partials";
 import { cn } from "@/lib/utils";
+import ApolloClientProvider from "@/providers/ApolloClientProvider";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { Toaster } from "react-hot-toast";
 import "./globals.css";
 
 const inter = Inter({
@@ -20,9 +22,12 @@ export default function RootLayout({
   return (
     <html lang="en" className="overflow-x-hidden">
       <body className={cn(inter.className, "antialiased overflow-x-hidden")}>
-        <Header />
-        <main>{children}</main>
-        <Footer />
+        <ApolloClientProvider>
+          <Toaster />
+          <Header />
+          <main>{children}</main>
+          <Footer />
+        </ApolloClientProvider>
       </body>
     </html>
   );

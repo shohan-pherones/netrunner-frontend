@@ -1,0 +1,9 @@
+mutation SendOtp($email: String!) {
+  sendOtp(data: { email: $email })
+}
+
+mutation VerifyOtp($data: VerifyOtpInput!) {
+  verifyOtp(data: $data) {
+    __typename
+  }
+}
