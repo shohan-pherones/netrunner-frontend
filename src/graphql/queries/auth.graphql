@@ -13,3 +13,9 @@ mutation SignUp($data: SignUpInput!) {
     token
   }
 }
+
+mutation SignIn($data: SignInInput!) {
+  signIn(data: $data) {
+    token
+  }
+}
