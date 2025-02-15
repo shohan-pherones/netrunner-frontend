@@ -1,11 +1,7 @@
-import { TOtpFormData, TSendOtpFormData } from "@/schemas";
+import { TOtpFormData, TSendOtpFormData, TSignUpFormData } from "@/schemas";
+import { TInputs } from "@/types";
 
-export const sendOtpInputs: {
-  label: string;
-  name: keyof TSendOtpFormData;
-  type: string;
-  placeholder: string;
-}[] = [
+export const sendOtpInputs: TInputs<TSendOtpFormData>[] = [
   {
     label: "Email",
     name: "email",
@@ -14,14 +10,24 @@ export const sendOtpInputs: {
   },
 ];
 
-export const otpInputs: {
-  label: string;
-  name: keyof TOtpFormData;
-  placeholder: string;
-}[] = [
+export const otpInputs: TInputs<TOtpFormData>[] = [
   {
     label: "OTP",
     name: "otp",
     placeholder: "Enter 6-digit OTP",
+  },
+];
+
+export const signUpInputs: TInputs<TSignUpFormData>[] = [
+  {
+    label: "Username",
+    name: "username",
+    placeholder: "Enter your username",
+  },
+  {
+    label: "Password",
+    name: "password",
+    type: "password",
+    placeholder: "Enter your password",
   },
 ];

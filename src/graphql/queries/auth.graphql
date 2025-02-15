@@ -7,3 +7,9 @@ mutation VerifyOtp($data: VerifyOtpInput!) {
     __typename
   }
 }
+
+mutation SignUp($data: SignUpInput!) {
+  signUp(data: $data) {
+    token
+  }
+}
