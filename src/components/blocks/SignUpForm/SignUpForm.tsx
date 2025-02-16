@@ -3,6 +3,7 @@
 import { Button, Input, SectionTitle } from "@/components/elements";
 import OtpInput from "@/components/elements/OtpInput/OtpInput";
 import { otpInputs, sendOtpInputs, signUpInputs } from "@/constants";
+import useAuth from "@/hooks/auth/useAuth";
 import {
   otpSchema,
   sendOtpSchema,
@@ -16,6 +17,7 @@ import {
   useSignUpMutation,
   useVerifyOtpMutation,
 } from "@/types/generated/graphql";
+import { ApolloError } from "@apollo/client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -54,6 +56,8 @@ const SignUpForm = () => {
 
   const router = useRouter();
 
+  const { setToken } = useAuth();
+
   const [OTP, setOTP] = useState<{
     permission: boolean;
     verifiedEmail: string;
@@ -77,8 +81,12 @@ const SignUpForm = () => {
         toast.error("Failed to send OTP. Please try again.");
       }
     } catch (error) {
-      console.error("Error sending OTP:", error);
-      toast.error("An error occurred. Please try again.");
+      if (error instanceof ApolloError) {
+        toast.error(error.message);
+      } else {
+        console.error("Error sending OTP:", error);
+        toast.error("An error occurred. Please try again.");
+      }
     }
   };
 
@@ -95,8 +103,12 @@ const SignUpForm = () => {
         toast.error("Invalid OTP. Please try again.");
       }
     } catch (error) {
-      console.error("Error verifying OTP:", error);
-      toast.error("An error occurred. Please try again.");
+      if (error instanceof ApolloError) {
+        toast.error(error.message);
+      } else {
+        console.error("Error verifying OTP:", error);
+        toast.error("An error occurred. Please try again.");
+      }
     }
   };
 
@@ -107,15 +119,19 @@ const SignUpForm = () => {
       });
 
       if (result.data?.signUp) {
-        // save token
+        setToken(result.data.signUp.token);
         router.push("/profile");
         toast.success("Account created successfully!");
       } else {
         toast.error("Failed to create account. Please try again.");
       }
     } catch (error) {
-      console.error("Error signing up:", error);
-      toast.error("An error occurred. Please try again.");
+      if (error instanceof ApolloError) {
+        toast.error(error.message);
+      } else {
+        console.error("Error signing up:", error);
+        toast.error("An error occurred. Please try again.");
+      }
     }
   };
 

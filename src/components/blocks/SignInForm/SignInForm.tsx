@@ -2,8 +2,10 @@
 
 import { Button, Input, SectionTitle } from "@/components/elements";
 import { signInInputs } from "@/constants";
+import useAuth from "@/hooks/auth/useAuth";
 import { signInSchema, TSignInFormData } from "@/schemas";
 import { useSignInMutation } from "@/types/generated/graphql";
+import { ApolloError } from "@apollo/client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -23,23 +25,28 @@ const SignInForm = () => {
 
   const router = useRouter();
 
+  const { setToken } = useAuth();
+
   const onSubmit = async (data: TSignInFormData) => {
     try {
-      const result = await signInMutation({
-        variables: { data: { ...data } },
+      const { data: resultData } = await signInMutation({
+        variables: { data },
       });
 
-      if (result.data?.signIn) {
+      if (resultData?.signIn) {
+        setToken(resultData.signIn.token);
         router.push("/");
         toast.success("Sign in successful! Welcome back.");
       } else {
-        toast.error(
-          "Invalid credentials. Please check your username/email and password."
-        );
+        toast.error("Sign in failed. Please try again.");
       }
     } catch (error) {
-      console.error("Error signing in:", error);
-      toast.error("An error occurred. Please try again.");
+      if (error instanceof ApolloError) {
+        toast.error(error.message);
+      } else {
+        console.error("Error signing in:", error);
+        toast.error("An unexpected error occurred.");
+      }
     }
   };
 

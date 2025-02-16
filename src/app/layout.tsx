@@ -1,6 +1,7 @@
 import { Footer, Header } from "@/components/partials";
 import { cn } from "@/lib/utils";
 import ApolloClientProvider from "@/providers/ApolloClientProvider";
+import ReduxStoreProvider from "@/providers/ReduxStoreProvider";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { Toaster } from "react-hot-toast";
@@ -23,10 +24,12 @@ export default function RootLayout({
     <html lang="en" className="overflow-x-hidden">
       <body className={cn(inter.className, "antialiased overflow-x-hidden")}>
         <ApolloClientProvider>
-          <Toaster />
-          <Header />
-          <main>{children}</main>
-          <Footer />
+          <ReduxStoreProvider>
+            <Toaster />
+            <Header />
+            <main>{children}</main>
+            <Footer />
+          </ReduxStoreProvider>
         </ApolloClientProvider>
       </body>
     </html>
