@@ -112,3 +112,15 @@ export const createProfileInputs: TInputs<TCreateProfileFormData>[] = [
     placeholder: "Enter your website URL (optional)",
   },
 ];
+
+export const coverPhotos = [
+  "/images/cover-photo-placeholder-1.jpg",
+  "/images/cover-photo-placeholder-2.jpg",
+  "/images/cover-photo-placeholder-3.jpg",
+];
+
+export const profilePhotos = [
+  "/images/profile-photo-placeholder-1.jpg",
+  "/images/profile-photo-placeholder-2.jpg",
+  "/images/profile-photo-placeholder-3.jpg",
+];
