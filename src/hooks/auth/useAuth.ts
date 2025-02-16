@@ -10,12 +10,14 @@ const useAuth = () => {
   const setToken = useCallback(
     (token: string) => {
       dispatch(saveToken(token));
+      document.cookie = `token=${token}; path=/`;
     },
     [dispatch]
   );
 
   const removeToken = useCallback(() => {
     dispatch(clearToken());
+    document.cookie = "token=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT";
   }, [dispatch]);
 
   return { token, setToken, removeToken };
