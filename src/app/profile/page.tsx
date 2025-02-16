@@ -8,7 +8,7 @@ const ProfilePage = () => {
   const { data, loading } = useGetMyProfileQuery();
 
   return (
-    <div className="px-20 py-5">
+    <div className="mx-20 my-5">
       {loading && <Loading />}
       {!loading && data && <ProfileView data={data} />}
       {!loading && !data && <CreateProfileForm />}
