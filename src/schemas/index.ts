@@ -1,3 +1,4 @@
+import { Sex } from "@/types/generated/graphql";
 import { z } from "zod";
 
 export const sendOtpSchema = z.object({
@@ -37,3 +38,20 @@ export const signInSchema = z.object({
 });
 
 export type TSignInFormData = z.infer<typeof signInSchema>;
+
+export const createProfileSchema = z.object({
+  firstName: z.string().min(1, { message: "First name is required" }),
+  lastName: z.string().min(1, { message: "Last name is required" }),
+  nickName: z.string().optional(),
+  coverPhoto: z.string().optional(),
+  profilePhoto: z.string().optional(),
+  bio: z.string().optional(),
+  sex: z.nativeEnum(Sex, { message: "Sex must be MALE, FEMALE, or OTHER" }),
+  dateOfBirth: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, {
+    message:
+      "Date of birth must be a valid date string in the format YYYY-MM-DD",
+  }),
+  website: z.string().optional(),
+});
+
+export type TCreateProfileFormData = z.infer<typeof createProfileSchema>;

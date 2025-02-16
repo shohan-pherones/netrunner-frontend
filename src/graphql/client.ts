@@ -1,12 +1,24 @@
-import { ApolloClient, InMemoryCache, HttpLink } from "@apollo/client";
+import { store } from "@/redux/store";
+import { ApolloClient, InMemoryCache, createHttpLink } from "@apollo/client";
+import { setContext } from "@apollo/client/link/context";
 
-const httpLink = new HttpLink({
-  uri: process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT as string,
+const httpLink = createHttpLink({
+  uri: process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT,
 });
 
-const client = new ApolloClient({
-  link: httpLink,
+const authLink = setContext((_, { headers }) => {
+  const { auth } = store.getState();
+  const token = auth.token;
+
+  return {
+    headers: {
+      ...headers,
+      authorization: token ? `Bearer ${token}` : "",
+    },
+  };
+});
+
+export const client = new ApolloClient({
+  link: authLink.concat(httpLink),
   cache: new InMemoryCache(),
 });
-
-export default client;

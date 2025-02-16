@@ -12,6 +12,7 @@ interface InputProps<T extends object> {
   register: UseFormRegister<T>;
   error?: FieldError;
   placeholder?: string;
+  options?: string[];
 }
 
 const Input = <T extends object>({
@@ -21,6 +22,7 @@ const Input = <T extends object>({
   register,
   error,
   placeholder = "",
+  options,
 }: InputProps<T>) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
@@ -30,16 +32,35 @@ const Input = <T extends object>({
         {label}
       </label>
       <div className="relative w-full">
-        <input
-          type={isPasswordVisible ? "text" : type}
-          id={name}
-          placeholder={placeholder}
-          {...register(name)}
-          className={cn(
-            "w-full border px-3 py-2 rounded-lg transition-all outline-none focus:border-transparent focus:ring-2 focus:ring-cyan-500 hover:border-gray-500",
-            type === "password" ? "pr-7" : ""
-          )}
-        />
+        {type === "select" ? (
+          <select
+            id={name}
+            {...register(name)}
+            className={cn(
+              "w-full border px-3 py-2 rounded-lg transition-all outline-none focus:border-transparent focus:ring-2 focus:ring-cyan-500 hover:border-gray-500"
+            )}
+          >
+            <option value="" disabled>
+              {placeholder}
+            </option>
+            {options?.map((option) => (
+              <option key={option} value={option}>
+                {option.charAt(0).toUpperCase() + option.slice(1).toLowerCase()}
+              </option>
+            ))}
+          </select>
+        ) : (
+          <input
+            type={isPasswordVisible ? "text" : type}
+            id={name}
+            placeholder={placeholder}
+            {...register(name)}
+            className={cn(
+              "w-full border px-3 py-2 rounded-lg transition-all outline-none focus:border-transparent focus:ring-2 focus:ring-cyan-500 hover:border-gray-500",
+              type === "password" ? "pr-7" : ""
+            )}
+          />
+        )}
         {type === "password" && (
           <button
             onClick={() => setIsPasswordVisible(!isPasswordVisible)}

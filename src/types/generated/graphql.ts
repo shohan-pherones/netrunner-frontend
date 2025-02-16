@@ -15,6 +15,7 @@ export type Scalars = {
   Boolean: { input: boolean; output: boolean; }
   Int: { input: number; output: number; }
   Float: { input: number; output: number; }
+  DateTime: { input: any; output: any; }
 };
 
 export type Auth = {
@@ -22,14 +23,32 @@ export type Auth = {
   token: Scalars['String']['output'];
 };
 
+export type CreateProfileInput = {
+  bio?: InputMaybe<Scalars['String']['input']>;
+  coverPhoto?: InputMaybe<Scalars['String']['input']>;
+  dateOfBirth: Scalars['String']['input'];
+  firstName: Scalars['String']['input'];
+  lastName: Scalars['String']['input'];
+  nickName?: InputMaybe<Scalars['String']['input']>;
+  profilePhoto?: InputMaybe<Scalars['String']['input']>;
+  sex: Sex;
+  website?: InputMaybe<Scalars['String']['input']>;
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
+  createProfile: Profile;
   requestPasswordReset: Scalars['String']['output'];
   resetPassword: Scalars['String']['output'];
   sendOtp: Scalars['String']['output'];
   signIn: Auth;
   signUp: Auth;
   verifyOtp: Auth;
+};
+
+
+export type MutationCreateProfileArgs = {
+  createProfileInput: CreateProfileInput;
 };
 
 
@@ -63,12 +82,30 @@ export type MutationVerifyOtpArgs = {
   data: VerifyOtpInput;
 };
 
+export type Profile = {
+  __typename?: 'Profile';
+  bio?: Maybe<Scalars['String']['output']>;
+  coverPhoto?: Maybe<Scalars['String']['output']>;
+  createdAt: Scalars['DateTime']['output'];
+  dateOfBirth: Scalars['DateTime']['output'];
+  firstName: Scalars['String']['output'];
+  id: Scalars['ID']['output'];
+  lastName: Scalars['String']['output'];
+  nickName?: Maybe<Scalars['String']['output']>;
+  profilePhoto?: Maybe<Scalars['String']['output']>;
+  sex: Sex;
+  updatedAt: Scalars['DateTime']['output'];
+  user: User;
+  userId: Scalars['String']['output'];
+  website?: Maybe<Scalars['String']['output']>;
+};
+
 export type Query = {
   __typename?: 'Query';
+  getMyProfile: Profile;
   hello: Scalars['String']['output'];
 };
 
-/** User roles (USER or ADMIN) */
 export enum Role {
   Admin = 'ADMIN',
   User = 'USER'
@@ -77,6 +114,12 @@ export enum Role {
 export type SendOtpInput = {
   email: Scalars['String']['input'];
 };
+
+export enum Sex {
+  Female = 'FEMALE',
+  Male = 'MALE',
+  Other = 'OTHER'
+}
 
 export type SignInInput = {
   identifier: Scalars['String']['input'];
@@ -88,6 +131,17 @@ export type SignUpInput = {
   password: Scalars['String']['input'];
   role?: Role;
   username: Scalars['String']['input'];
+};
+
+export type User = {
+  __typename?: 'User';
+  createdAt: Scalars['DateTime']['output'];
+  email: Scalars['String']['output'];
+  id: Scalars['ID']['output'];
+  password: Scalars['String']['output'];
+  role: Role;
+  updatedAt: Scalars['DateTime']['output'];
+  username: Scalars['String']['output'];
 };
 
 export type VerifyOtpInput = {
@@ -122,6 +176,18 @@ export type SignInMutationVariables = Exact<{
 
 
 export type SignInMutation = { __typename?: 'Mutation', signIn: { __typename?: 'Auth', token: string } };
+
+export type CreateProfileMutationVariables = Exact<{
+  createProfileInput: CreateProfileInput;
+}>;
+
+
+export type CreateProfileMutation = { __typename?: 'Mutation', createProfile: { __typename?: 'Profile', id: string } };
+
+export type GetMyProfileQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetMyProfileQuery = { __typename?: 'Query', getMyProfile: { __typename?: 'Profile', id: string, firstName: string, lastName: string, nickName?: string | null, coverPhoto?: string | null, profilePhoto?: string | null, bio?: string | null, sex: Sex, dateOfBirth: any, website?: string | null, user: { __typename?: 'User', username: string, email: string, createdAt: any } } };
 
 
 export const SendOtpDocument = gql`
@@ -254,3 +320,89 @@ export function useSignInMutation(baseOptions?: Apollo.MutationHookOptions<SignI
 export type SignInMutationHookResult = ReturnType<typeof useSignInMutation>;
 export type SignInMutationResult = Apollo.MutationResult<SignInMutation>;
 export type SignInMutationOptions = Apollo.BaseMutationOptions<SignInMutation, SignInMutationVariables>;
+export const CreateProfileDocument = gql`
+    mutation CreateProfile($createProfileInput: CreateProfileInput!) {
+  createProfile(createProfileInput: $createProfileInput) {
+    id
+  }
+}
+    `;
+export type CreateProfileMutationFn = Apollo.MutationFunction<CreateProfileMutation, CreateProfileMutationVariables>;
+
+/**
+ * __useCreateProfileMutation__
+ *
+ * To run a mutation, you first call `useCreateProfileMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateProfileMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createProfileMutation, { data, loading, error }] = useCreateProfileMutation({
+ *   variables: {
+ *      createProfileInput: // value for 'createProfileInput'
+ *   },
+ * });
+ */
+export function useCreateProfileMutation(baseOptions?: Apollo.MutationHookOptions<CreateProfileMutation, CreateProfileMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateProfileMutation, CreateProfileMutationVariables>(CreateProfileDocument, options);
+      }
+export type CreateProfileMutationHookResult = ReturnType<typeof useCreateProfileMutation>;
+export type CreateProfileMutationResult = Apollo.MutationResult<CreateProfileMutation>;
+export type CreateProfileMutationOptions = Apollo.BaseMutationOptions<CreateProfileMutation, CreateProfileMutationVariables>;
+export const GetMyProfileDocument = gql`
+    query GetMyProfile {
+  getMyProfile {
+    id
+    firstName
+    lastName
+    nickName
+    coverPhoto
+    profilePhoto
+    bio
+    sex
+    dateOfBirth
+    website
+    user {
+      username
+      email
+      createdAt
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetMyProfileQuery__
+ *
+ * To run a query within a React component, call `useGetMyProfileQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetMyProfileQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetMyProfileQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetMyProfileQuery(baseOptions?: Apollo.QueryHookOptions<GetMyProfileQuery, GetMyProfileQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetMyProfileQuery, GetMyProfileQueryVariables>(GetMyProfileDocument, options);
+      }
+export function useGetMyProfileLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetMyProfileQuery, GetMyProfileQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetMyProfileQuery, GetMyProfileQueryVariables>(GetMyProfileDocument, options);
+        }
+export function useGetMyProfileSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetMyProfileQuery, GetMyProfileQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetMyProfileQuery, GetMyProfileQueryVariables>(GetMyProfileDocument, options);
+        }
+export type GetMyProfileQueryHookResult = ReturnType<typeof useGetMyProfileQuery>;
+export type GetMyProfileLazyQueryHookResult = ReturnType<typeof useGetMyProfileLazyQuery>;
+export type GetMyProfileSuspenseQueryHookResult = ReturnType<typeof useGetMyProfileSuspenseQuery>;
+export type GetMyProfileQueryResult = Apollo.QueryResult<GetMyProfileQuery, GetMyProfileQueryVariables>;

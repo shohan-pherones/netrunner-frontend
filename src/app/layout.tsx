@@ -22,7 +22,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="overflow-x-hidden">
-      <body className={cn(inter.className, "antialiased overflow-x-hidden")}>
+      <body className={cn(inter.className, "antialiased")}>
         <ApolloClientProvider>
           <ReduxStoreProvider>
             <Toaster />

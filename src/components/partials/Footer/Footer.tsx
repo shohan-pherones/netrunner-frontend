@@ -6,19 +6,18 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const Footer = () => {
-  const [textColor, setTextColor] = useState<
-    "text-black" | "text-white" | "text-cyan-500"
-  >("text-black");
+  const [isVisible, setIsVisible] = useState(false);
+
   const pathname = usePathname();
 
   useEffect(() => {
     switch (pathname) {
       case "/sign-up":
       case "/sign-in":
-        setTextColor("text-white");
+        setIsVisible(true);
         break;
       default:
-        setTextColor("text-black");
+        setIsVisible(false);
         break;
     }
   }, [pathname]);
@@ -26,8 +25,8 @@ const Footer = () => {
   return (
     <footer
       className={cn(
-        "absolute bottom-0 left-0 w-full px-20 py-10 text-center text-xs",
-        textColor
+        "absolute bottom-0 left-0 w-full px-20 py-10 text-center text-xs text-white",
+        isVisible ? "" : "hidden"
       )}
     >
       <p>

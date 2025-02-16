@@ -1,10 +1,13 @@
 import {
+  TCreateProfileFormData,
   TOtpFormData,
   TSendOtpFormData,
   TSignInFormData,
   TSignUpFormData,
 } from "@/schemas";
-import { TInputs } from "@/types";
+import { TInputs, TMenu } from "@/types";
+import { Sex } from "@/types/generated/graphql";
+import { Home, User } from "lucide-react";
 
 export const sendOtpInputs: TInputs<TSendOtpFormData>[] = [
   {
@@ -48,5 +51,64 @@ export const signInInputs: TInputs<TSignInFormData>[] = [
     name: "password",
     type: "password",
     placeholder: "Enter your password",
+  },
+];
+
+export const navMenus: TMenu[] = [
+  { route: "/", label: "Home", icon: Home },
+  { route: "/profile", label: "Profile", icon: User },
+];
+
+export const createProfileInputs: TInputs<TCreateProfileFormData>[] = [
+  {
+    label: "First Name",
+    name: "firstName",
+    placeholder: "Enter your first name",
+  },
+  {
+    label: "Last Name",
+    name: "lastName",
+    placeholder: "Enter your last name",
+  },
+  {
+    label: "Nickname",
+    name: "nickName",
+    placeholder: "Enter your nickname (optional)",
+  },
+  {
+    label: "Cover Photo URL",
+    name: "coverPhoto",
+    type: "url",
+    placeholder: "Enter a valid URL for your cover photo (optional)",
+  },
+  {
+    label: "Profile Photo URL",
+    name: "profilePhoto",
+    type: "url",
+    placeholder: "Enter a valid URL for your profile photo (optional)",
+  },
+  {
+    label: "Bio",
+    name: "bio",
+    placeholder: "Tell us about yourself (optional)",
+  },
+  {
+    label: "Sex",
+    name: "sex",
+    type: "select",
+    placeholder: "Select your sex",
+    options: Object.values(Sex),
+  },
+  {
+    label: "Date of Birth",
+    name: "dateOfBirth",
+    type: "date",
+    placeholder: "Enter your date of birth (YYYY-MM-DD)",
+  },
+  {
+    label: "Website",
+    name: "website",
+    type: "url",
+    placeholder: "Enter your website URL (optional)",
   },
 ];

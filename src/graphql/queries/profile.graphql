@@ -1,0 +1,25 @@
+mutation CreateProfile($createProfileInput: CreateProfileInput!) {
+  createProfile(createProfileInput: $createProfileInput) {
+    id
+  }
+}
+
+query GetMyProfile {
+  getMyProfile {
+    id
+    firstName
+    lastName
+    nickName
+    coverPhoto
+    profilePhoto
+    bio
+    sex
+    dateOfBirth
+    website
+    user {
+      username
+      email
+      createdAt
+    }
+  }
+}
