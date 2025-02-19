@@ -106,6 +106,11 @@ export const createProfileInputs: TInputs<TCreateProfileFormData>[] = [
     placeholder: "Enter your date of birth (YYYY-MM-DD)",
   },
   {
+    label: "Address",
+    name: "address",
+    placeholder: "Enter your address (optional)",
+  },
+  {
     label: "Website",
     name: "website",
     type: "url",

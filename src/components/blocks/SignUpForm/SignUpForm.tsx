@@ -136,7 +136,7 @@ const SignUpForm = () => {
   };
 
   return (
-    <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-white min-w-80 p-10 rounded-2xl flex flex-col gap-5 items-center justify-center">
+    <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-white min-w-80 max-w-xl p-10 rounded-2xl flex flex-col gap-5 items-center justify-center">
       <SectionTitle
         title={
           !OTP.permission

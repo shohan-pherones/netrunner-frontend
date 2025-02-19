@@ -1,6 +1,6 @@
 import { getRandomCoverPhoto, getRandomProfilePhoto } from "@/lib/utils";
 import { GetMyProfileQuery } from "@/types/generated/graphql";
-import { Globe } from "lucide-react";
+import { Globe, MapPin } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -47,6 +47,14 @@ const ProfileView: React.FC<ProfileViewProps> = ({ data }) => {
             @{data.getMyProfile.user.username}
           </p>
           <p>{data.getMyProfile.bio}</p>
+          {data.getMyProfile.address && (
+            <p className="flex items-center gap-2">
+              <span>
+                <MapPin size={16} />
+              </span>
+              <span>{data.getMyProfile.address}</span>
+            </p>
+          )}
           {data.getMyProfile.website && (
             <p className="flex items-center gap-2">
               <span>

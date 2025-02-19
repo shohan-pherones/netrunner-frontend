@@ -52,6 +52,7 @@ export const createProfileSchema = z.object({
       "Date of birth must be a valid date string in the format YYYY-MM-DD",
   }),
   website: z.string().optional(),
+  address: z.string().optional(),
 });
 
 export type TCreateProfileFormData = z.infer<typeof createProfileSchema>;

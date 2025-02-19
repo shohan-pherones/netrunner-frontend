@@ -16,6 +16,7 @@ query GetMyProfile {
     sex
     dateOfBirth
     website
+    address
     user {
       username
       email

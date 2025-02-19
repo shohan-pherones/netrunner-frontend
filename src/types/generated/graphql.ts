@@ -24,6 +24,7 @@ export type Auth = {
 };
 
 export type CreateProfileInput = {
+  address?: InputMaybe<Scalars['String']['input']>;
   bio?: InputMaybe<Scalars['String']['input']>;
   coverPhoto?: InputMaybe<Scalars['String']['input']>;
   dateOfBirth: Scalars['String']['input'];
@@ -84,6 +85,7 @@ export type MutationVerifyOtpArgs = {
 
 export type Profile = {
   __typename?: 'Profile';
+  address?: Maybe<Scalars['String']['output']>;
   bio?: Maybe<Scalars['String']['output']>;
   coverPhoto?: Maybe<Scalars['String']['output']>;
   createdAt: Scalars['DateTime']['output'];
@@ -187,7 +189,7 @@ export type CreateProfileMutation = { __typename?: 'Mutation', createProfile: { 
 export type GetMyProfileQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetMyProfileQuery = { __typename?: 'Query', getMyProfile: { __typename?: 'Profile', id: string, firstName: string, lastName: string, nickName?: string | null, coverPhoto?: string | null, profilePhoto?: string | null, bio?: string | null, sex: Sex, dateOfBirth: any, website?: string | null, user: { __typename?: 'User', username: string, email: string, createdAt: any } } };
+export type GetMyProfileQuery = { __typename?: 'Query', getMyProfile: { __typename?: 'Profile', id: string, firstName: string, lastName: string, nickName?: string | null, coverPhoto?: string | null, profilePhoto?: string | null, bio?: string | null, sex: Sex, dateOfBirth: any, website?: string | null, address?: string | null, user: { __typename?: 'User', username: string, email: string, createdAt: any } } };
 
 
 export const SendOtpDocument = gql`
@@ -366,6 +368,7 @@ export const GetMyProfileDocument = gql`
     sex
     dateOfBirth
     website
+    address
     user {
       username
       email
